@@ -1,0 +1,75 @@
+body { padding: 0; margin: 0; background: #a1a1a1; font-family: Tahoma, Arial; }
+
+h2 { padding: 0; margin: 0; color: #444; font-weight: bold; font-size: 1.2em; border-bottom: 3px solid #88b075; text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5); }
+    h2 span.arrow { font-size: 1em; color: #888; padding: 0 5px; }
+
+h3 { font-weight: bold; font-size: 1em; line-height: 1em; color: #333; margin: 0; }
+
+h4 { padding: 0; margin: 0; color: #444; font-weight: bold; font-size: 1.2em; border-bottom: 3px solid #88b075; text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5); }
+
+a { color: #444; text-decoration: none; font-size: 1em; }
+    a:hover { text-decoration: underline; }
+
+p { font-size: 0.9em; text-align: justify; }
+    p a { background: url('../images/dots.png') repeat-x 2px 90%; }
+        p a:hover { color: #777; background: url('../images/dots2.png') repeat-x 2px 90%; text-decoration: none; }
+
+li { list-style: none; }
+
+#padder { background: #FFF; width: 900px; margin: 0 auto; padding: 0; }
+#header { height: 99px; padding: 0; margin: 0; background: url('../images/header.png') no-repeat; }
+    #header a { display: block; width: 900px; height: 99px; overflow:hidden; text-indent: -10000px; }
+#nav { width: 885px; height: 42px; padding: 0 0 0 15px; margin: 0; background: #000 url('../images/nav.png'); }
+    #nav li { float: left; list-style: none; color: #fff; margin: 0 15px 0 0; height: 33px; padding: 9px 0 0 0; }
+        #nav li a { color: #FFF; font-size:1.4em; text-decoration: none; padding: 9px 15px 13px 15px; text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5); }
+            #nav li a:hover { text-decoration: underline; }
+    #nav li.active { background: url('../images/nav_active.png'); }
+        #nav li.active a { background: url('../images/nav_active_right.png') no-repeat 100% 0; color: #222; text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.5); }
+
+#footer { font-size: 0.7em; color: #666; padding: 0 25px 15px 25px; text-align: center; }
+
+#main { background: #FFF url('../images/content.png') no-repeat; padding: 15px; }
+
+#content { overflow: hidden; width: 870px; }
+
+#imagebox { display: none; overflow:hidden; width: 870px; height:550px; margin: 0 0 -550px 0; position: relative; top: -550px; background: red; }
+
+.section { width: 5000px; clear: both; }
+    .section ul { padding: 0; margin: 0; }
+    .section ul li.sub { list-style: none; float: left; width: 870px; /*height: 515px; */position:relative; margin: 0 15px 0 0; }
+
+.clear { clear: both; }
+
+/* --- */
+#photo { background: url('../images/frontpage.png') no-repeat 100% 0; height: 260px; padding: 8px 0 0 0; margin: 0; border: solid #ccc; border-width: 0px 1px 1px 1px; }
+    #photo span { display: none; }
+
+#welcome { width: 575px; height: 217px; padding: 10px 0 0 15px; }
+    #welcome li { font-size: 85%; }
+
+#photo-links { width: 585px; padding: 0 0 0 25px; }
+    #photo-links { padding: 0 0 0 20px; margin: 0; }
+#photo-links li { list-style: square inside; float: left; margin: 0 25px 0 0; }
+
+/* --- */
+#sample-list { width: 464px; }
+	#sample-list li { padding: 1px 0 2px 0; margin: 0; background: url('../images/border1.png') repeat-x 0 100%; }
+        #sample-list li div { width: 445px; padding: 3px 15px 3px 3px; margin: 0; }
+        #sample-list li p { margin: 0; }
+        #sample-list li.active {   }
+            #sample-list li.active div { background: #dcdcdc url('../images/arrow1.png') no-repeat 100%; }
+
+#sample-images { float: right; overflow: hidden; }
+    #sample-images ul li { display: none; }
+        #sample-images ul li.active { display: block; }
+    #sample-images ul img { margin: 0 0 0 12px; border: 1px solid #222; padding: 1px; }
+
+#content.tgraf ul { padding: 0; margin: 0; }
+#content.tgraf ul li { float: left; margin: 0 10px 0 0;}
+#content.tgraf ul li img { width: 200px; padding: 1px; border: 1px solid rgba(0, 0, 0, 0.6); box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);}
+
+p.big { font-size: 140%; }
+
+.clearfix { zoom: 1; }
+    .clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; }
+    .clearfix:after { clear: both; }
