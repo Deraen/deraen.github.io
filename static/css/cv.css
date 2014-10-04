@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bitter-Regular'), url('http://themes.googleusercontent.com/static/fonts/bitter/v4/SHIcXhdd5RknatSgOzyEkA.woff') format('woff');
+}
+
+body { padding: 0; margin: 0; }
+li { list-style: none; }
+
+a { text-decoration: none; color: #666; }
+
+/* CV */
+body { background: #fff; color: #444; font-family: Bitter; font-size: 0.95em; }
+
+#padder { width: 100%; background: #fff; }
+#padder2 { padding: 0.5cm 1cm 1cm 1cm; }
+
+@media screen {
+    body { background: #eee; }
+    #padder { width: 900px; margin: 0 auto; }
+}
+
+h2 { border: 0; font-size: 2em; background: #444; color: #fff; padding: 1cm 1cm 1cm 1.5cm; margin: 0; }
+h3 { margin: 0.75cm 0 0 0; background: #6F6F6F; color: #fff; padding: 6px 6px 6px 17px; font-size: 1.1em; text-transform: uppercase; }
+h4 { padding: 0; margin: 0.5cm 0 0 0; padding: 0 0 0 13px; height: 22px; line-height: 22px; }
+    h4 span { background: #fff; padding: 0 3px;}
+
+ul { margin: 0; padding: 3px 0 0 3px; }
+    ul li { color: #666; }
+        ul.list1 > li:before { content: "\00BB \0020"; }
+        ul li span.info1 { color: #000; }
+        ul li span.grade { font-size: 0.8em; margin: 0 0 0 5px; border-radius: 2px; padding: 1px 2px; text-transform: lowercase; }
+        ul li span.grade:before { content: "["; }
+        ul li span.grade:after { content: "]"; }
+        ul li span.year { margin: 0 0.25cm 0 0; font-size: 0.9em; float: right; }
+        ul ul { margin: 0 0 0 13px; padding: 0; }
+            ul li.desc { list-style: none; background: #E3E3E3; padding: 7px; font-size: 0.85em; border-radius: 4px; text-align: justify; color: #333; margin: 0 20px 10px 0; }
+    ul.it { border: 3px solid #ccc; margin-top: -11px; padding: 10px 5px 5px 13px}
+        ul.it li { float: left; list-style: none; margin: 0 10px 0 0; color: #444; }
+
+div.general { float: left; }
+    div.general ul li { padding: 0 0 0 13px; }
+    div.general ul.it li { padding: 0; }
+div.photo { margin-top: -95px; background: #fff; border: 1px solid #000; padding: 1px; float: right; }
+
+.left { float: left; }
+.right { float; left; }
+
+/* clearfix */
+ul.it:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+div.clearer { clear: both; }
