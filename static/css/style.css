@@ -70,6 +70,7 @@ li { list-style: none; }
 
 p.big { font-size: 140%; }
 
-.clearfix { zoom: 1; }
+/* For IE6/7 */
+/* .clearfix { zoom: 1; } */
     .clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; }
     .clearfix:after { clear: both; }
