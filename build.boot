@@ -35,6 +35,5 @@
   []
   (comp (watch)
         (build)
-        ; TODO: Create Liverelaod.js compatible task
         (livereload :asset-path "public")
         (serve :resource-root "public")))
