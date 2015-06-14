@@ -5,6 +5,7 @@
                   [perun "0.1.0-SNAPSHOT"]
                   [clj-time "0.9.0"]
                   [deraen/boot-less "0.4.0"]
+                  [deraen/boot-livereload "0.1.0-SNAPSHOT"]
                   [pandeiro/boot-http "0.6.3-SNAPSHOT"]
 
                   [org.webjars/bootstrap "3.3.4"]])
@@ -13,7 +14,8 @@
          '[blog.views.index :as index-view]
          '[blog.views.post :as post-view]
          '[pandeiro.boot-http :refer [serve]]
-         '[deraen.boot-less :refer [less]])
+         '[deraen.boot-less :refer [less]]
+         '[deraen.boot-livereload :refer [livereload]])
 
 (deftask build
   "Build blog."
@@ -34,5 +36,5 @@
   (comp (watch)
         (build)
         ; TODO: Create Liverelaod.js compatible task
-        ; (livereload)
+        (livereload :asset-path "public")
         (serve :resource-root "public")))
