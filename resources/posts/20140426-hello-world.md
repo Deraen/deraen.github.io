@@ -1,4 +1,4 @@
-<!--
+---
 name: Hello World
 description: I finally have a blog
 author: Juho Teperi
@@ -14,7 +14,7 @@ headline:
 in_language: en
 keywords: boot
 canonical_url: http://deraen.github.io/hello_world
--->
+---
 
 ## Hello
 

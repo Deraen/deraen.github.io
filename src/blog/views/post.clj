@@ -40,10 +40,10 @@
           [:a.author-name {:href author_url} author]]
          [:div
           [:span.meta-label "Published: "]
-          [:span (dates/reformat-datestr date_published "YYYY-MM-dd", "MMM dd, YYYY")]]
+          [:span (dates/format-datestr date_published "MMM dd, YYYY")]]
          [:div
           [:span.meta-label "Modified: "]
-          [:span (dates/reformat-datestr date_modified "YYYY-MM-dd", "MMM dd, YYYY")]]
+          [:span (dates/format-datestr date_modified "MMM dd, YYYY")]]
          [:div
           [:span.meta-label "Published in: "]
           [:span location]]

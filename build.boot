@@ -2,10 +2,10 @@
   :source-paths #{"src"}
   :resource-paths #{"resources"}
   :dependencies '[[hiccup "1.0.5"]
-                  [perun "0.1.0-SNAPSHOT"]
+                  [perun "0.1.1-SNAPSHOT"]
                   [clj-time "0.9.0"]
                   [deraen/boot-less "0.4.0"]
-                  [deraen/boot-livereload "0.1.0-SNAPSHOT"]
+                  [deraen/boot-livereload "0.1.0"]
                   [pandeiro/boot-http "0.6.3-SNAPSHOT"]
 
                   [org.webjars/bootstrap "3.3.4"]])
