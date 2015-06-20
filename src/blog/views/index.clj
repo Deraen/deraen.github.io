@@ -6,15 +6,15 @@
 
 (defn render-post
   [{:keys [filename name description
-           ttr date_published
-           author author_email author_avatar]}]
+           ttr date-published
+           author author-email author-avatar]}]
   [:li.item {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
    [:a.title {:href (str filename) :itemprop "name"} name]
    [:div.item-meta
-    [:meta {:itemprop "author" :content (str author " (" author_email ")" )}]
-    (if author_avatar
-      [:img.author-avatar {:src author_avatar :title author}])
-    [:p.pub-data (str (dates/format-datestr date_published "MMM dd, YYYY") ", by " author)
+    [:meta {:itemprop "author" :content (str author " (" author-email ")" )}]
+    (if author-avatar
+      [:img.author-avatar {:src author-avatar :title author}])
+    [:p.pub-data (str (dates/format-datestr date-published "MMM dd, YYYY") ", by " author)
      [:span.reading-time (str " " ttr " mins read")]]
     [:p {:itemprop "description"} description]]])
 

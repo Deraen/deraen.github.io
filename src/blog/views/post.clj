@@ -5,26 +5,25 @@
             [blog.views.common :as common]))
 
 (defn render
-  [{:keys [author_avatar author author_email author_url location
-           in_language ttr
-           date_created date_modified date_published
+  [{:keys [author-avatar author author-email author-url location
+           in-language ttr
+           date-created date-modified date-published
            name content keywords description
-           discussion_url canonical_url]}]
-  (println author_avatar)
+           discussion-url canonical-url]}]
   (html5
-    {:lang in_language :itemscope "" :itemtype "http://schema.org/BlogPosting"}
+    {:lang in-language :itemscope "" :itemtype "http://schema.org/BlogPosting"}
     (into
       (common/head)
-      [[:meta {:itemprop "author" :name "author" :content (str author " (" author_email ")" )}]
+      [[:meta {:itemprop "author" :name "author" :content (str author " (" author-email ")" )}]
        [:meta {:name "keywords" :itemprop "keywords" :content keywords}]
        [:meta {:name "description" :itemprop "description" :content description}]
-       [:meta {:itemprop "inLanguage" :content in_language}]
-       [:meta {:itemprop "dateCreated" :content date_created}]
-       [:meta {:itemprop "dateModified" :content date_modified}]
-       [:meta {:itemprop "datePublished" :content date_published}]
+       [:meta {:itemprop "inLanguage" :content in-language}]
+       [:meta {:itemprop "dateCreated" :content date-created}]
+       [:meta {:itemprop "dateModified" :content date-modified}]
+       [:meta {:itemprop "datePublished" :content date-published}]
        [:title {:itemprop "name"} name]
-       [:link {:rel "discussionUrl" :href discussion_url}]
-       [:link {:rel "canonical" :href canonical_url}]])
+       [:link {:rel "discussionUrl" :href discussion-url}]
+       [:link {:rel "canonical" :href canonical-url}]])
     [:body
      (common/header)
      [:div.row.content
@@ -32,18 +31,18 @@
        [:h1 {:itemprop "name"} name]
        (str content)
        [:aside.post-meta.small-12.medium-12.columns
-        (if author_avatar
-          [:img.author-avatar {:src author_avatar :title author}])
+        (if author-avatar
+          [:img.author-avatar {:src author-avatar :title author}])
         [:div.meta-info
          [:div
           [:span.meta-label "Written by: "]
-          [:a.author-name {:href author_url} author]]
+          [:a.author-name {:href author-url} author]]
          [:div
           [:span.meta-label "Published: "]
-          [:span (dates/format-datestr date_published "MMM dd, YYYY")]]
+          [:span (dates/format-datestr date-published "MMM dd, YYYY")]]
          [:div
           [:span.meta-label "Modified: "]
-          [:span (dates/format-datestr date_modified "MMM dd, YYYY")]]
+          [:span (dates/format-datestr date-modified "MMM dd, YYYY")]]
          [:div
           [:span.meta-label "Published in: "]
           [:span location]]
