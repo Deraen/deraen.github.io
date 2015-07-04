@@ -21,7 +21,7 @@ While working on a project I like to constantly see what is the result of
 the code I'm working on. On ClojureScript I use [Figwheel][figwheel]. Thus
 I wanted the same experience for working on blog, though this is not that
 useful when writing it's useful while setting up the blog. To make this
-workflow possible with Perun a few changes were implemented:
+workflow possible with Perun a two changes were implemented:
 
 ### Fast rebuilds
 
@@ -97,7 +97,7 @@ of the extendability. The tasks can be categorized in three types:
 
 The task `split-keywords` is a task which manipulates the metadata by
 splitting keyword strings. Though I now see that I should instead just
-define the keywords as arrays in YAML.
+define the keywords as arrays in YAML metadata of the posts.
 
 In this example there are five tasks which output files. A task which
 renders all the posts, two tasks which render a collection view and
@@ -132,7 +132,7 @@ I already starting writing [clj-hyphenate][clj-hyphenate] which implements
 Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is the
 same as used by TeX, LibreOffice and Hyphenator.js. To hyphenate HTML it
 is possible to insert soft-hyphens into the text which the browser only
-shows if the word needs to split into multiple lines.
+shows if the word needs to be split into multiple lines.
 
 [boot-clj]: http://boot-clj.com
 [perun]: https://github.com/hashobject/perun
