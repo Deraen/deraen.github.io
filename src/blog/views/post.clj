@@ -41,5 +41,5 @@
             [:span.meta-label "Tags: "]
             [:ul.keywords
              (for [k keywords]
-               [:li [:a {:href (str "/tags.html#" k)} k]])]])]]]]
+               [:li [:a {:href (str "/tags/#" k)} k]])]])]]]]
      (common/footer)]))

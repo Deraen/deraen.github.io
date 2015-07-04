@@ -19,7 +19,7 @@ ga('send', 'pageview');"])
    [:div.container
     [:a.site {:href "/"} site-title]
     [:ul
-     [:li [:a {:href "/tags.html"} "tags"]]]]])
+     [:li [:a {:href "/tags/"} "tags"]]]]])
 
 (defn footer []
   [:footer.footer
