@@ -64,16 +64,16 @@ of the extendability. The tasks can be categorized in three types:
   (boot/with-pre-wrap fileset
     (->> fileset
          (perun/get-perun-meta)
-         (perun/map-vals (fn [{:keys [keywords] :as post}]
-                           (if (string? keywords)
-                             (assoc post :keywords (->> (string/split keywords #",")
-                                                        (mapv string/trim)))
-                             post)))
+         (perun/map-vals
+           (fn [{:keys [keywords] :as post}]
+             (if (string? keywords)
+               (assoc post :keywords (->> (string/split keywords #",")
+                                          (mapv string/trim)))
+               post)))
          (perun/with-perun-meta fileset))))
 
 (deftask build
-  "Build blog."
-  [p prod  bool "Build rss, sitemap etc."]
+  [p prod bool "Build rss, sitemap etc."]
   (comp (less :source-map true :compress prod)
         ;; 1
         (markdown)
@@ -123,15 +123,15 @@ As it is easy to manipulate the data between reading the files and
 rendering there is great opportunity to move some features which are
 usually implemented in the browser to build process. The value I see there
 is that RSS readers (AFAIK) do not execute JS so those readers are left
-without code highlighting.
+without e.g. code highlighting.
 
 Another possibility is to hyphenate the text. This is even more useful as
 the hyphenation is relatively expensive operation so it's great if it only
 needs to be executed once instead of each page load. For this reason
 I already starting writing [clj-hyphenate][clj-hyphenate] which implements
-Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is
-the same as used by TeX, LibeOffice and Hyphenator.js. To hyphenate HTML
-it is possible to insert soft-hyphens into the text which the browser only
+Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is the
+same as used by TeX, LibreOffice and Hyphenator.js. To hyphenate HTML it
+is possible to insert soft-hyphens into the text which the browser only
 shows if the word needs to split into multiple lines.
 
 [boot-clj]: http://boot-clj.com

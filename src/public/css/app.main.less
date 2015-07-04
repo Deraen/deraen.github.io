@@ -81,6 +81,32 @@ body {
   }
 }
 
+.footer {
+  background: #eee;
+  line-height: 50px;
+  margin-top: 25px;
+  font-size: 0.85em;
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      a {
+        padding-right: 15px;
+      }
+      margin-right: 15px;
+      &:after {
+        content: "|";
+      }
+      &:last-child:after {
+        content: none;
+      }
+    }
+  }
+}
+
 /*
  * Typography
  */

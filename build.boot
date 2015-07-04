@@ -2,6 +2,7 @@
   :source-paths #{"src"}
   :resource-paths #{"resources"}
   :dependencies '[[hiccup "1.0.5"]
+                  [org.clojure/data.xml "0.0.8"]
                   [perun "0.1.3-SNAPSHOT"]
                   [clj-time "0.9.0"]
                   [deraen/boot-less "0.4.0"]
@@ -31,8 +32,7 @@
          (perun/with-perun-meta fileset))))
 
 (deftask build
-  "Build blog."
-  [p prod  bool "Build rss, sitemap etc."]
+  [p prod bool "Build rss, sitemap etc."]
   (comp (less :source-map true :compress prod)
         (markdown)
         (if prod (draft) identity)
@@ -42,17 +42,19 @@
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")
         (collection :renderer 'blog.views.tags/render :page "tags.html")
+        (collection :renderer 'blog.views.atom/render :page "atom.xml")
         (if prod (sitemap :filename "sitemap.xml") identity)
-        (if prod
-          (rss :title "Blog"
-               :description "Deraen's blog"
-               :link "http://deraen.github.io")
-          identity)))
+        ))
 
-(deftask dev
-  []
+(deftask dev []
   (comp (repl :server true)
         (watch)
         (build)
         (livereload :asset-path "public" :filter #"\.(css|html|js)$")
         (serve :resource-root "public")))
+
+(deftask deploy []
+  (set-env! :target-path "build")
+  (comp (build :prod true)
+        (sift :include #{#"^public"})
+        (sift :move {#"^public/" ""})))

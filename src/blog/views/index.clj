@@ -12,17 +12,16 @@
       [; [:meta {:itemprop "author" :name "author" :content ""}]
        ; [:meta {:name "keywords" :itemprop "keywords" :content ""}]
        ; [:meta {:name "description" :itemprop "description" :content ""}]
-       [:title "Blog"]])
+       [:title "Deraen's blog"]])
     [:body
      (common/header)
      [:div.main
       [:div.container
        (for [{:keys [permalink name date-published]} posts]
-         [:article
-          [:article {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
-           [:h3
-            [:span (datestr date-published)]
-            " "
-            [:a.title {:href permalink :itemprop "name"}
-             name]]]])]]
+         [:article {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
+          [:h3
+           [:span (datestr date-published)]
+           " "
+           [:a.title {:href permalink :itemprop "name"}
+            name]]])]]
      (common/footer)]))

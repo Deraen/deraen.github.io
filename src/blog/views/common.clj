@@ -4,7 +4,14 @@
             [hiccup.util :refer [url-encode]]))
 
 (defn ga []
-  nil)
+  [:script
+"(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-36245688-2', 'auto');
+ga('send', 'pageview');"])
 
 (defn header []
   [:nav.header {:role "navigation"}
@@ -15,7 +22,12 @@
 
 (defn footer []
   [:footer.footer
-   [:div.container]])
+   [:div.container
+    [:ul
+     [:li [:a {:href "/atom.xml"} "RSS"]]
+     [:li [:a {:href "https://github.com/Deraen"} "github.com/Deraen"]]
+     [:li [:a {:href "https://twitter.com/JuhoTeperi"} "twitter.com/JuhoTeperi"]]
+     [:li [:a {:href "http://metosin.fi"} "metosin.fi"]]]]])
 
 (defn head []
   [:head
