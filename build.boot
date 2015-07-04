@@ -35,9 +35,11 @@
   [p prod bool "Build rss, sitemap etc."]
   (comp (less :source-map true :compress prod)
         (markdown)
+        (base-metadata)
         (if prod (draft) identity)
         (slug)
         (permalink)
+        (canonical-url)
         (split-keywords)
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")

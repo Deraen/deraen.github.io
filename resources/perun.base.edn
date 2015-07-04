@@ -1,0 +1,7 @@
+{:site-title "Deraen's blog"
+ :author {:name "Juho Teperi"
+          :email "juho.teperi@iki.fi"}
+ :base-url "http://deraen.github.io"
+ :language "en"
+ :keywords #{"clojure" "clojurescript" "blog"}
+ :description ""}

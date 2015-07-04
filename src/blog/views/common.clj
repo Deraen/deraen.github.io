@@ -1,7 +1,8 @@
 (ns blog.views.common
   (:require [hiccup.core :refer [html]]
             [hiccup.page :refer [html5 include-css include-js]]
-            [hiccup.util :refer [url-encode]]))
+            [hiccup.util :refer [url-encode]]
+            [clojure.string :as string]))
 
 (defn ga []
   [:script
@@ -13,10 +14,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-36245688-2', 'auto');
 ga('send', 'pageview');"])
 
-(defn header []
+(defn header [{:keys [site-title]}]
   [:nav.header {:role "navigation"}
    [:div.container
-    [:a.site {:href "/"} "Deraen's blog"]
+    [:a.site {:href "/"} site-title]
     [:ul
      [:li [:a {:href "/tags.html"} "tags"]]]]])
 
@@ -29,7 +30,7 @@ ga('send', 'pageview');"])
      [:li [:a {:href "https://twitter.com/JuhoTeperi"} "twitter.com/JuhoTeperi"]]
      [:li [:a {:href "http://metosin.fi"} "metosin.fi"]]]]])
 
-(defn head []
+(defn head [{:keys [site-title author]}]
   [:head
    [:meta {:charset "utf-8"}]
    [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge,chrome=1"}]
@@ -37,10 +38,17 @@ ga('send', 'pageview');"])
    [:link {:rel "shortcut icon" :href "/favicon.ico"}]
    ; [:link {:rel "publisher" :href ""}]
    ; [:link {:rel "author" :href "humans.txt"}]
-   [:link {:rel "alternate" :type "application/rss+xml" :title "RSS" :href "/feed.rss"}]
+   [:link {:rel "alternate" :type "application/atom+xml" :title "Atom feed" :href "/atom.xml"}]
    (include-css "/css/app.css")
    (include-css (str "http://fonts.googleapis.com/css?family=" (url-encode "Lato|Source+Code+Pro|Merriweather:400,700")))
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js")
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js")
    [:script "hljs.initHighlightingOnLoad();"]
    (ga)])
+
+(defn coll-head [{:keys [author description site-title keywords] :as global}]
+  (into (head global)
+        [[:meta {:itemprop "author" :name "author" :content (str (:name author) " (" (:email author) ")")}]
+         [:meta {:name "keywords" :itemprop "keywords" :content (string/join ", " keywords)}]
+         [:meta {:name "description" :itemprop "description" :content description}]
+         [:title site-title]]))

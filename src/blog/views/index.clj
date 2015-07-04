@@ -4,17 +4,12 @@
             [blog.dates :refer [datestr]]
             [blog.views.common :as common]))
 
-(defn render [posts]
+(defn render [global posts]
   (html5
     {:lang "en" :itemtype "http://schema.org/Blog"}
-    (into
-      (common/head)
-      [; [:meta {:itemprop "author" :name "author" :content ""}]
-       ; [:meta {:name "keywords" :itemprop "keywords" :content ""}]
-       ; [:meta {:name "description" :itemprop "description" :content ""}]
-       [:title "Deraen's blog"]])
+    (common/coll-head global)
     [:body
-     (common/header)
+     (common/header global)
      [:div.main
       [:div.container
        (for [{:keys [permalink name date-published]} posts]

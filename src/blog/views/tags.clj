@@ -13,7 +13,7 @@
       (and (= (:n a) (:n b))
            (compare tag-a tag-b))))
 
-(defn render [posts]
+(defn render [global posts]
   (let [posts-by-tags
         (->> posts
              (reduce
@@ -29,16 +29,12 @@
         m (apply max (map (comp :n val) posts-by-tags))]
     (html5
       {:lang "en" :itemtype "http://schema.org/Blog"}
-      (into
-        (common/head)
-        [; [:meta {:itemprop "author" :name "author" :content ""}]
-         ; [:meta {:name "keywords" :itemprop "keywords" :content ""}]
-         ; [:meta {:name "description" :itemprop "description" :content ""}]
-         [:title "Blog"]])
+      (common/coll-head global)
       [:body
-       (common/header)
+       (common/header global)
        [:div.main
         [:div.container
+         [:h1 "Tags"]
          [:ul.tag-cloud
           (for [[tag {:keys [n]}] posts-by-tags]
             [:li.tag
