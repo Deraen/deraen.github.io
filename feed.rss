@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
+<channel>
+<atom:link href='http://deraen.github.io' rel='self' type='application/rss+xml'/>
+<generator>
+clj-rss
+</generator>
+<link>
+http://deraen.github.io
+</link>
+<description>
+Deraen's blog
+</description>
+<title>
+Blog
+</title>
+<item>
+<title>
+Hello World – Building a blog using Boot
+</title>
+</item>
+</channel>
+</rss>
