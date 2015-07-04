@@ -641,6 +641,12 @@ pre,
 code {
   font-family: "Source Code Pro", monospace;
 }
+code {
+  font-size: 0.85em;
+}
+li {
+  list-style: square;
+}
 /*
  * General
  */
