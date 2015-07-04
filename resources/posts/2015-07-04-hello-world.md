@@ -11,7 +11,7 @@ one, without ever finishing anything. Thus I was happy when I saw
 
 - Modular design, easy to extend
 - No forced metadata schema
-- RSS feeds
+- ~~RSS~~ Atom feed
 - Reads markdown
 - Templating using Hiccup
 
