@@ -3,5 +3,6 @@
             [clj-time.coerce :as tc]
             [clj-time.format :as tf]))
 
-(defn format-datestr [date fmt]
-  (tf/unparse (tf/formatter fmt) (tc/from-date date)))
+(defn datestr
+  ([date] (datestr date "dd MMM YYYY"))
+  ([date fmt] (tf/unparse (tf/formatter fmt) (tc/from-date date))))

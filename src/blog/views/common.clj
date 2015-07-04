@@ -1,17 +1,21 @@
 (ns blog.views.common
   (:require [hiccup.core :refer [html]]
-            [hiccup.page :refer [html5 include-css include-js]]))
+            [hiccup.page :refer [html5 include-css include-js]]
+            [hiccup.util :refer [url-encode]]))
 
 (defn ga []
   nil)
 
 (defn header []
-  [:nav#main-nav {:role "navigation"}
-   [:div.header
-    [:a#logo {:href "/"}]]])
+  [:nav.header {:role "navigation"}
+   [:div.container
+    [:a.site {:href "/"} "Deraen's blog"]
+    [:ul
+     [:li [:a {:href "/tags.html"} "tags"]]]]])
 
 (defn footer []
-  [:footer.row])
+  [:footer.footer
+   [:div.container]])
 
 (defn head []
   [:head
@@ -23,5 +27,8 @@
    ; [:link {:rel "author" :href "humans.txt"}]
    [:link {:rel "alternate" :type "application/rss+xml" :title "RSS" :href "/feed.rss"}]
    (include-css "/css/app.css")
-   (include-css "http://fonts.googleapis.com/css?family=PT+Sans")
+   (include-css (str "http://fonts.googleapis.com/css?family=" (url-encode "Lato|Source+Code+Pro|Merriweather:400,700")))
+   (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js")
+   (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js")
+   [:script "hljs.initHighlightingOnLoad();"]
    (ga)])

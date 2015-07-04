@@ -1,1 +1,149 @@
-@import "bootstrap/less/bootstrap";
+@import (inline) "normalize.css/normalize.css";
+@import (inline) "highlight.js/styles/github.css";
+
+@screen-xs: 480px;
+@screen-sm: 768px;
+@container-sm: 600px;
+@screen-md: 992px;
+@container-md: 800px;
+@screen-lg: 1280px;
+@container-lg: 1000px;
+
+@screen-xs-max: @screen-sm - 1;
+@screen-sm-max: @screen-md - 1;
+@screen-md-max: @screen-lg - 1;
+
+@media-xs: ~"(max-width: @{screen-xs-max})";
+@media-sm: ~"(min-width: @{screen-sm}) and (max-width: @{screen-sm-max})";
+@media-md: ~"(min-width: @{screen-md}) and (max-width: @{screen-md-max})";
+@media-lg: ~"(min-width: @{screen-lg})";
+
+@font-base: Lato, sans-serif;
+@font-header: Merriweather, serif;
+@font-mono: "Source Code Pro", monospace;
+
+/*
+ * Layout
+ */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header, .main, .footer {
+}
+
+.header, .footer {
+  height: 50px;
+}
+
+.main {
+  flex: 1;
+}
+
+.container {
+  margin: 0 auto;
+
+  width: 80%;
+  @media @media-sm {
+    width: @container-sm;
+  }
+  @media @media-md {
+    width: @container-md;
+  }
+  @media @media-lg {
+    width: @container-lg;
+  }
+}
+
+.header {
+  background: #eee;
+  line-height: 50px;
+
+  .site {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 110%;
+    margin-right: 25px;
+  }
+
+  ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    li {
+      display: inline-block;
+      list-style: none;
+    }
+  }
+}
+
+/*
+ * Typography
+ */
+
+body {
+  font-family: @font-base;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: @font-header;
+  font-weight: 400;
+}
+
+pre, code {
+  font-family: @font-mono;
+}
+
+/*
+ * General
+ */
+
+a {
+  text-decoration: none;
+  color: #5D65D1;
+}
+
+/*
+ * Hyphenation
+ */
+p {
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+h3 span {
+  font-size: 80%;
+}
+
+.meta {
+  color: #444;
+  font-size: 80%;
+}
+
+.keywords {
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 5px;
+    &:after {
+      content: ", ";
+    }
+    &:last-child:after {
+      content: none;
+    }
+  }
+}
+
+ul.tag-cloud {
+  .keywords;
+  li {
+    margin-right: 10px;
+  }
+}

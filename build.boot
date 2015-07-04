@@ -8,14 +8,27 @@
                   [deraen/boot-livereload "0.1.1"]
                   [pandeiro/boot-http "0.6.3-SNAPSHOT"]
 
-                  [org.webjars/bootstrap "3.3.4"]])
+                  [org.webjars.npm/normalize.css "3.0.3"]
+                  [org.webjars.npm/highlight.js "8.6.0"]])
 
 (require '[io.perun :refer :all]
-         '[blog.views.index :as index-view]
-         '[blog.views.post :as post-view]
          '[pandeiro.boot-http :refer [serve]]
          '[deraen.boot-less :refer [less]]
-         '[deraen.boot-livereload :refer [livereload]])
+         '[deraen.boot-livereload :refer [livereload]]
+         '[boot.core :as boot]
+         '[clojure.string :as string]
+         '[io.perun.core :as perun])
+
+(deftask split-keywords []
+  (boot/with-pre-wrap fileset
+    (->> fileset
+         (perun/get-perun-meta)
+         (perun/map-vals (fn [{:keys [keywords] :as post}]
+                           (if (string? keywords)
+                             (assoc post :keywords (->> (string/split keywords #",")
+                                                        (mapv string/trim)))
+                             post)))
+         (perun/with-perun-meta fileset))))
 
 (deftask build
   "Build blog."
@@ -23,18 +36,23 @@
   (comp (less :source-map true :compress prod)
         (markdown)
         (if prod (draft) identity)
-        (ttr)
         (slug)
         (permalink)
-        (render :renderer post-view/render)
-        (collection :renderer index-view/render :page "index.html" :comparator (fn [i1 i2] (compare i2 i1)))
+        (split-keywords)
+        (render :renderer 'blog.views.post/render)
+        (collection :renderer 'blog.views.index/render :page "index.html")
+        (collection :renderer 'blog.views.tags/render :page "tags.html")
         (if prod (sitemap :filename "sitemap.xml") identity)
-        (if prod (rss :title "Blog" :description "Deraen's blog" :link "http://deraen.github.io") identity)
-        ))
+        (if prod
+          (rss :title "Blog"
+               :description "Deraen's blog"
+               :link "http://deraen.github.io")
+          identity)))
 
 (deftask dev
   []
-  (comp (watch)
+  (comp (repl :server true)
+        (watch)
         (build)
-        (livereload :asset-path "public")
+        (livereload :asset-path "public" :filter #"\.(css|html|js)$")
         (serve :resource-root "public")))
