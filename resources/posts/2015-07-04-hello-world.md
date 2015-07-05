@@ -55,9 +55,9 @@ implementing Perun using multiple Boot tasks which can be composed. Below
 is a example from this blog's `build.boot` file which shows some examples
 of the extendability. The tasks can be categorized in three types:
 
-- Tasks which read metadata from files, currently only `markdown` (1)
-- Tasks which manipulate the metadata (2)
-- Tasks which render some output (3, 4)
+1. Tasks which **read** metadata from files, currently only `markdown` (1)
+2. Tasks which **manipulate** the metadata (2)
+3. Tasks which **render** some output (3, 4)
 
 ```clj
 (deftask split-keywords []

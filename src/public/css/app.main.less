@@ -93,6 +93,7 @@ body {
 
     li {
       display: inline-block;
+      padding-bottom: 0;
       a {
         padding-right: 15px;
       }
@@ -113,11 +114,16 @@ body {
 
 body {
   font-family: @font-base;
+  font-size: 18px;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: @font-header;
   font-weight: 400;
+}
+
+h1, h2 {
+  font-weight: 700;
 }
 
 pre, code {
@@ -128,8 +134,16 @@ code {
   font-size: 0.85em;
 }
 
-li {
-  list-style: square;
+ul {
+  li {
+    list-style: square;
+  }
+}
+
+ul, ol {
+  li {
+    padding-bottom: 10px;
+  }
 }
 
 /*
@@ -151,6 +165,7 @@ p.note {
  * Hyphenation
  */
 p {
+  line-height: 1.5;
   word-wrap: break-word;
   text-align: justify;
 }
@@ -172,6 +187,7 @@ h3 span {
     display: inline-block;
     list-style: none;
     margin-right: 5px;
+    padding-bottom: 0;
     &:after {
       content: ", ";
     }
