@@ -554,10 +554,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-.header,
-.footer {
-  height: 50px;
-}
 .main {
   flex: 1;
 }
@@ -577,7 +573,7 @@ body {
 }
 @media (min-width: 1280px) {
   .container {
-    width: 1000px;
+    width: 800px;
   }
 }
 .header {
@@ -627,7 +623,7 @@ body {
  * Typography
  */
 body {
-  font-family: Lato, sans-serif;
+  font-family: "Droid Serif", serif;
   font-size: 18px;
 }
 h1,
@@ -636,7 +632,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Merriweather, serif;
+  font-family: "Arvo", serif;
   font-weight: 400;
 }
 h1,
