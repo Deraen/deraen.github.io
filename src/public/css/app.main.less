@@ -7,7 +7,7 @@
 @screen-md: 992px;
 @container-md: 800px;
 @screen-lg: 1280px;
-@container-lg: 1000px;
+@container-lg: 800px;
 
 @screen-xs-max: @screen-sm - 1;
 @screen-sm-max: @screen-md - 1;
@@ -18,8 +18,8 @@
 @media-md: ~"(min-width: @{screen-md}) and (max-width: @{screen-md-max})";
 @media-lg: ~"(min-width: @{screen-lg})";
 
-@font-base: Lato, sans-serif;
-@font-header: Merriweather, serif;
+@font-base: "Droid Serif", serif;
+@font-header: "Arvo", serif;
 @font-mono: "Source Code Pro", monospace;
 
 /*
@@ -31,13 +31,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.header, .main, .footer {
-}
-
-.header, .footer {
-  height: 50px;
 }
 
 .main {

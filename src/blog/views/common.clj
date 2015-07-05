@@ -40,7 +40,7 @@ ga('send', 'pageview');"])
    ; [:link {:rel "author" :href "humans.txt"}]
    [:link {:rel "alternate" :type "application/atom+xml" :title "Atom feed" :href "/atom.xml"}]
    (include-css "/css/app.css")
-   (include-css (str "http://fonts.googleapis.com/css?family=" (url-encode "Lato|Source+Code+Pro|Merriweather:400,700")))
+   (include-css (str "http://fonts.googleapis.com/css?family=" (url-encode "Source+Code+Pro|Arvo:400,700|Droid+Serif:400,400italic,700")))
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js")
    (include-js "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js")
    [:script "hljs.initHighlightingOnLoad();"]
