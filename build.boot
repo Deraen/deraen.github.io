@@ -23,19 +23,19 @@
 (deftask split-keywords []
   (boot/with-pre-wrap fileset
     (->> fileset
-         (perun/get-perun-meta)
+         (perun/get-meta)
          (perun/map-vals (fn [{:keys [keywords] :as post}]
                            (if (string? keywords)
                              (assoc post :keywords (->> (string/split keywords #",")
                                                         (mapv string/trim)))
                              post)))
-         (perun/with-perun-meta fileset))))
+         (perun/set-meta fileset))))
 
 (deftask build
   [p prod bool "Build rss, sitemap etc."]
   (comp (less :source-map true :compress prod)
         (markdown)
-        (base-metadata)
+        (global-metadata)
         (if prod (draft) identity)
         (slug)
         (permalink :permalink-fn #(perun/absolutize-url (str (:slug %) "/")))

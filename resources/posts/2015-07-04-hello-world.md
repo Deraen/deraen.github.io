@@ -4,7 +4,7 @@ keywords: boot, blog
 ---
 
 I've been planning on starting a blog for some time already. But as I love
-hacking with build tools and such I usually spends some days trying a blog
+hacking with build tools and such I usually spend some days trying a blog
 generator before deciding it's not good enough and start writing a new
 one, without ever finishing anything. Thus I was happy when I saw
 [Perun][perun] which does pretty much everything I want:
