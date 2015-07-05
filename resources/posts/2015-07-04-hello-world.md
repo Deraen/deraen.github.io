@@ -117,9 +117,9 @@ data.xml.
 Figwheel style ClojureScript development is already possible with
 [Boot][boot-clj] using [boot-reload][boot-reload] but that is heavily
 built for ClojureScript use cases. The client is written in ClojureScript
-so a built step is required. Also boot-reload doesn't handle HTML file
+so a built step is required. ~~Also boot-reload doesn't handle HTML file
 reloads which are the essential for being useful for static page
-development.
+development.~~ Boot-reload does handle HTML reloads.
 
 Previously I've been using [LiveReload.js][livereload.js] with
 [Gulp.js][gulp] so I thought that should
