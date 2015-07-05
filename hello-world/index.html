@@ -30,7 +30,8 @@ ga('send', 'pageview');</script><meta content="Juho Teperi (juho.teperi@iki.fi)"
         ;; 3
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")
-        (collection :renderer 'blog.views.tags/render :page "tags.html")
+        (collection :renderer 'blog.views.tags/render :page "tags/index.html")
+        (collection :renderer 'blog.views.atom/render :page "atom.xml")
         ;; 4
         (if prod (sitemap :filename "sitemap.xml") identity)
         (if prod
