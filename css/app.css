@@ -611,6 +611,7 @@ body {
 }
 .footer ul li {
   display: inline-block;
+  padding-bottom: 0;
   margin-right: 15px;
 }
 .footer ul li a {
@@ -627,6 +628,7 @@ body {
  */
 body {
   font-family: Lato, sans-serif;
+  font-size: 18px;
 }
 h1,
 h2,
@@ -637,6 +639,10 @@ h6 {
   font-family: Merriweather, serif;
   font-weight: 400;
 }
+h1,
+h2 {
+  font-weight: 700;
+}
 pre,
 code {
   font-family: "Source Code Pro", monospace;
@@ -644,8 +650,12 @@ code {
 code {
   font-size: 0.85em;
 }
-li {
+ul li {
   list-style: square;
+}
+ul li,
+ol li {
+  padding-bottom: 10px;
 }
 /*
  * General
@@ -663,6 +673,7 @@ p.note {
  * Hyphenation
  */
 p {
+  line-height: 1.5;
   word-wrap: break-word;
   text-align: justify;
 }
@@ -681,6 +692,7 @@ h3 span {
   display: inline-block;
   list-style: none;
   margin-right: 5px;
+  padding-bottom: 0;
 }
 .keywords li:after {
   content: ", ";
@@ -696,6 +708,7 @@ ul.tag-cloud li {
   display: inline-block;
   list-style: none;
   margin-right: 5px;
+  padding-bottom: 0;
 }
 ul.tag-cloud li:after {
   content: ", ";
