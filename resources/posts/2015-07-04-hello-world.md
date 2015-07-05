@@ -109,9 +109,13 @@ as the render function can itself do the necessary work (one `reduce`).
 ## HTML and CSS livereload
 
 Figwheel style ClojureScript development is already possible with
-[Boot][boot-clj] using [boot-livereload][livereload] but that requires
-ClojureScript. For static page development I've been using
-[LiveReload.js][livereload.js] with [Gulp.js][gulp] so I thought that  should
+[Boot][boot-clj] using [boot-reload][boot-reload] but that is heavily
+built for ClojureScript use cases. The client is written in Cljs so a
+built step is required. Also boot-reload doesn't handle HTML file reloads
+which are the most useful for static page development.
+
+Previously I've been using [LiveReload.js][livereload.js] with
+[Gulp.js][gulp] so I thought that should
 be a good fit for Boot also. Luckily [a Clojure implementation][clj-livereload]
 of LiveReload already existed. It required some API changes to make it
 generally usable library. After the changes it was a breeze to create a [boot
@@ -142,6 +146,7 @@ shows if the word needs to be split into multiple lines.
 [gulp]: http://gulpjs.com/
 [livereload.js]: http://livereload.com
 [boot-livereload]: https://github.com/Deraen/boot-livereload
+[boot-reload]: https://github.com/adzerk-oss/boot-reload
 [boot-garden]: https://github.com/martinklepsch/boot-garden
 [tools.namespace]: https://github.com/clojure/tools.namespace
 [clj-hyphenate]: https://github.com/Deraen/clj-hyphenate
