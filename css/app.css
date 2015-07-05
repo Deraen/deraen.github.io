@@ -654,6 +654,11 @@ a {
   text-decoration: none;
   color: #5D65D1;
 }
+p.note {
+  background: #D4F0FF;
+  padding: 10px;
+  border-radius: 10px;
+}
 /*
  * Hyphenation
  */
