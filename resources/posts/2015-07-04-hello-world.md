@@ -85,7 +85,8 @@ of the extendability. The tasks can be categorized in three types:
         ;; 3
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")
-        (collection :renderer 'blog.views.tags/render :page "tags.html")
+        (collection :renderer 'blog.views.tags/render :page "tags/index.html")
+        (collection :renderer 'blog.views.atom/render :page "atom.xml")
         ;; 4
         (if prod (sitemap :filename "sitemap.xml") identity)
         (if prod
@@ -106,13 +107,19 @@ all of tags (keywords) in the posts and creates a tag cloud out of those,
 what is cool here is that to create a tag page no special task was needed
 as the render function can itself do the necessary work (one `reduce`).
 
+Render tasks do not need to necessarily output HTML, they
+can produce string in any way which is then written to the file.
+`collection`-task can for example produce HTML using Hiccup or XML using
+data.xml.
+
 ## HTML and CSS livereload
 
 Figwheel style ClojureScript development is already possible with
 [Boot][boot-clj] using [boot-reload][boot-reload] but that is heavily
-built for ClojureScript use cases. The client is written in Cljs so a
-built step is required. Also boot-reload doesn't handle HTML file reloads
-which are the most useful for static page development.
+built for ClojureScript use cases. The client is written in ClojureScript
+so a built step is required. Also boot-reload doesn't handle HTML file
+reloads which are the essential for being useful for static page
+development.
 
 Previously I've been using [LiveReload.js][livereload.js] with
 [Gulp.js][gulp] so I thought that should
