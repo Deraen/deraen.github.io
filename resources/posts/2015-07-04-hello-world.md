@@ -1,6 +1,9 @@
 ---
 name: Hello World – Building a blog using Boot
 keywords: boot, blog
+date-created: 2015-07-04
+date-published: 2015-07-04
+date-modified: 2015-07-08
 ---
 
 I've been planning on starting a blog for some time already. But as I love

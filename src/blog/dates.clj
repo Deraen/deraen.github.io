@@ -6,3 +6,6 @@
 (defn datestr
   ([date] (datestr date "dd MMM YYYY"))
   ([date fmt] (tf/unparse (tf/formatter fmt) (tc/from-date date))))
+
+(defn iso-datetime [date]
+  (tf/unparse (tf/formatters :date-time-no-ms) (tc/from-date date)))
