@@ -5,12 +5,28 @@
             [blog.dates :refer [datestr]]
             [blog.views.common :as common]))
 
+(defn disquss [id]
+  [:div [:div#disqus_thread]
+   [:script {:type "text/javascript"}
+    (format
+      "/* * * CONFIGURATION VARIABLES * * */
+       var disqus_shortname = 'deraen';
+       var disqus_identifier = '%s';
+
+       /* * * DON'T EDIT BELOW THIS LINE * * */
+       (function() {
+       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+       })();" id)]
+   [:noscript "Please enable JavaScript to view the <a href=\"https://disqus.com/?ref_noscript\" rel=\"nofollow\">comments powered by Disqus.</a></noscript>"]])
+
 (defn render
   [global
    {:keys [author author-email author-url location
            in-language ttr
            date-created date-modified date-published
-           name content keywords description
+           permalink name content keywords description
            discussion-url canonical-url]}]
   (html5
     {:lang in-language :itemscope "" :itemtype "http://schema.org/BlogPosting"}
@@ -41,5 +57,7 @@
             [:span.meta-label "Tags: "]
             [:ul.keywords
              (for [k keywords]
-               [:li [:a {:href (str "/tags/#" k)} k]])]])]]]]
+               [:li [:a {:href (str "/tags/#" k)} k]])]])]
+        [:aside.comments
+         (disquss permalink)]]]]
      (common/footer)]))
