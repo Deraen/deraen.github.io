@@ -139,7 +139,7 @@ without e.g. code highlighting.
 Another possibility is to hyphenate the text. This is even more useful as
 the hyphenation is relatively expensive operation so it's great if it only
 needs to be executed once instead of each page load. For this reason
-I already starting writing [clj-hyphenate][clj-hyphenate] which implements
+I already started writing [clj-hyphenate][clj-hyphenate] which implements
 Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is the
 same as used by TeX, LibreOffice and Hyphenator.js. To hyphenate HTML it
 is possible to insert soft-hyphens into the text which the browser only
