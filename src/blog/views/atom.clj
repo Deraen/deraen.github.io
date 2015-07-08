@@ -13,7 +13,7 @@
     (xml/sexp-as-element
       [:feed {:xmlns "http://www.w3.org/2005/Atom"}
        [:title site-title]
-       [:link {:href (str base-url "atom.xml") :rel "self"}]
+       [:link {:href (str base-url "/atom.xml") :rel "self"}]
        [:link {:href base-url}]
        [:updated (->> (take 10 posts)
                       (map updated)
@@ -23,8 +23,9 @@
        [:author
         [:name (:name author)]
         [:email (:email author)]]
-       (for [{:keys [canonical-url content name] :as post} (take 10 posts)]
+       (for [{:keys [permalink canonical-url content name] :as post} (take 10 posts)]
          [:entry
+          [:id permalink]
           [:title name]
           [:link canonical-url]
           [:updated (iso-datetime (updated post))]
