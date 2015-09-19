@@ -46,7 +46,7 @@
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")
         (collection :renderer 'blog.views.tags/render :page "tags/index.html")
-        (collection :renderer 'blog.views.atom/render :page "atom.xml")
+        (atom-feed :filename "atom.xml" :link "http://deraen.github.io":title "Deraen's blog")
         (if prod (sitemap :filename "sitemap.xml") identity)
         ))
 
