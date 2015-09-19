@@ -36,7 +36,7 @@
 (deftask build
   [p prod bool "Build rss, sitemap etc."]
   (comp (less :source-map (not prod) :compress prod)
-        (markdown)
+        (markdown :options {:extensions {:extanchorlinks true}})
         (global-metadata)
         (if prod (draft) identity)
         (slug)
