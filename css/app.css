@@ -672,6 +672,7 @@ p {
   line-height: 1.5;
   word-wrap: break-word;
   text-align: justify;
+  hyphens: manual;
 }
 h3 span {
   font-size: 80%;
