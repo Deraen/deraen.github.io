@@ -3,7 +3,9 @@
   :resource-paths #{"resources"}
   :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
                   [hiccup "1.0.5"]
+                  [enlive "1.1.6"]
                   [org.clojure/data.xml "0.0.8"]
+                  [deraen/clj-hyphenate "0.1.0-SNAPSHOT"]
                   [perun "0.1.3-SNAPSHOT"]
                   [clj-time "0.9.0"]
                   [deraen/boot-less "0.4.0"]
@@ -20,7 +22,8 @@
          '[deraen.boot-livereload :refer [livereload]]
          '[boot.core :as boot]
          '[clojure.string :as string]
-         '[io.perun.core :as perun])
+         '[io.perun.core :as perun]
+         '[blog.hyphenate :refer [hyphenate-html]])
 
 (deftask split-keywords []
   (boot/with-pre-wrap fileset
@@ -46,6 +49,7 @@
         (render :renderer 'blog.views.post/render)
         (collection :renderer 'blog.views.index/render :page "index.html")
         (collection :renderer 'blog.views.tags/render :page "tags/index.html")
+        (hyphenate-html)
         (atom-feed :filename "atom.xml" :link "http://deraen.github.io":title "Deraen's blog")
         (if prod (sitemap :filename "sitemap.xml") identity)
         ))
