@@ -1,5 +1,5 @@
 (ns blog.hyphenate
-  (:require [clj-hyphenate.core :refer [hyphenate-paragraph hyphenate-word]]
+  (:require [clj-hyphenate.core :refer [hyphenate-paragraph]]
             [clj-hyphenate.patterns.en-gb :as en]
             [boot.core :as b]
             [boot.util :as u]
@@ -7,19 +7,19 @@
             [net.cgrand.enlive-html :as html]
             [clojure.string :as string]))
 
-(defn hyphenate-p [{:keys [content] :as el}]
+(defn hyphenate-el [{:keys [content] :as el}]
 
   (assoc el :content (map (fn [x]
                             (if (string? x)
-                              ; Split-join loses whitespace - replace doesn't
-                              (string/replace x #"[A-Za-z]+" #(hyphenate-word en/rules %))
+                              (hyphenate-paragraph en/rules x)
                               x))
                           content)))
 
 (defn hyphenate-html' [file]
   (-> file
       (html/html-resource)
-      (html/transform [:p] hyphenate-p)
+      (html/transform #{[:p] [:h1] [:h2] [:h3] [:h4] [:h5] [:h6] [:del] [:strong] [:em]}
+                      hyphenate-el)
       html/emit*
       (->> (apply str))))
 

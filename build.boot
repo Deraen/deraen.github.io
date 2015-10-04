@@ -5,7 +5,7 @@
                   [hiccup "1.0.5"]
                   [enlive "1.1.6"]
                   [org.clojure/data.xml "0.0.8"]
-                  [deraen/clj-hyphenate "0.1.0-SNAPSHOT"]
+                  [deraen/clj-hyphenate "0.1.0"]
                   [perun "0.1.3-SNAPSHOT"]
                   [clj-time "0.9.0"]
                   [deraen/boot-less "0.4.0"]
