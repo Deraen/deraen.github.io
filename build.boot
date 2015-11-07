@@ -4,16 +4,16 @@
   :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
                   [hiccup "1.0.5"]
                   [org.clojure/data.xml "0.0.8"]
-                  [perun "0.1.3-SNAPSHOT"]
-                  [clj-time "0.9.0"]
-                  [deraen/boot-less "0.4.0"]
+                  [perun "0.2.0-SNAPSHOT"]
+                  [clj-time "0.11.0"]
+                  [deraen/boot-less "0.4.2"]
                   [deraen/boot-livereload "0.1.1"]
                   [deraen/boot-hyphenate "0.1.0"]
-                  [pandeiro/boot-http "0.6.3-SNAPSHOT"]
+                  [pandeiro/boot-http "0.7.0"]
                   [org.slf4j/slf4j-nop "1.7.12"]
 
                   [org.webjars.npm/normalize.css "3.0.3"]
-                  [org.webjars.npm/highlight.js "8.6.0"]])
+                  [org.webjars.npm/highlight.js "8.7.0"]])
 
 (require '[io.perun :refer :all]
          '[pandeiro.boot-http :refer [serve]]
@@ -28,11 +28,11 @@
   (boot/with-pre-wrap fileset
     (->> fileset
          (perun/get-meta)
-         (perun/map-vals (fn [{:keys [keywords] :as post}]
-                           (if (string? keywords)
-                             (assoc post :keywords (->> (string/split keywords #",")
-                                                        (mapv string/trim)))
-                             post)))
+         (map (fn [{:keys [keywords] :as post}]
+                (if (string? keywords)
+                  (assoc post :keywords (->> (string/split keywords #",")
+                                             (mapv string/trim)))
+                  post)))
          (perun/set-meta fileset))))
 
 (deftask build
