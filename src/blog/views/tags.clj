@@ -13,9 +13,9 @@
       (and (= (:n a) (:n b))
            (compare tag-a tag-b))))
 
-(defn render [global posts]
+(defn render [{:keys [meta entries]}]
   (let [posts-by-tags
-        (->> posts
+        (->> entries
              (reduce
                (fn [acc post]
                  (reduce (fn [acc keyword]
@@ -26,12 +26,13 @@
                          (:keywords post)))
                {})
              (sort tag-comparator))
-        m (apply max (map (comp :n val) posts-by-tags))]
+        m (if (seq posts-by-tags)
+            (apply max (map (comp :n val) posts-by-tags)))]
     (html5
       {:lang "en" :itemtype "http://schema.org/Blog"}
-      (common/coll-head global)
+      (common/coll-head meta)
       [:body
-       (common/header global)
+       (common/header meta)
        [:div.main
         [:div.container
          [:h1 "Tags"]

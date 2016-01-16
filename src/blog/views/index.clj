@@ -4,15 +4,15 @@
             [blog.dates :refer [datestr]]
             [blog.views.common :as common]))
 
-(defn render [global posts]
+(defn render [{:keys [meta entries]}]
   (html5
     {:lang "en" :itemtype "http://schema.org/Blog"}
-    (common/coll-head global)
+    (common/coll-head meta)
     [:body
-     (common/header global)
+     (common/header meta)
      [:div.main
       [:div.container
-       (for [{:keys [permalink name date-published]} posts]
+       (for [{:keys [permalink name date-published]} entries]
          [:article {:itemprop "blogPost" :itemscope "" :itemtype "http://schema.org/BlogPosting"}
           [:h3
            [:span (datestr date-published)]
