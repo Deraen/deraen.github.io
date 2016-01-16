@@ -9,16 +9,16 @@
   [:div [:div#disqus_thread]
    [:script {:type "text/javascript"}
     (format
-      "/* * * CONFIGURATION VARIABLES * * */
-       var disqus_shortname = 'deraen';
-       var disqus_identifier = '%s';
+     "/* * * CONFIGURATION VARIABLES * * */
+     var disqus_shortname = 'deraen';
+     var disqus_identifier = '%s';
 
-       /* * * DON'T EDIT BELOW THIS LINE * * */
-       (function() {
-       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-       })();" id)]
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();" id)]
    [:noscript "Please enable JavaScript to view the <a href=\"https://disqus.com/?ref_noscript\" rel=\"nofollow\">comments powered by Disqus.</a></noscript>"]])
 
 (defn render [{:keys [meta entry]}]
