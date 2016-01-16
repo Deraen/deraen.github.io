@@ -1,0 +1,48 @@
+I hereby claim:
+
+  * I am an admin of https://deraen.github.io
+  * I am juhoteperi (https://keybase.io/juhoteperi) on keybase.
+  * I have a public key ASDjplfTneeIH-snWJRTnWuHVpX7dY2AXMynVYOrvKm-nwo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120e3a657d39de7881feb275894539d6b875695fb758d805ccca75583abbca9be9f0a",
+            "host": "keybase.io",
+            "kid": "0120e3a657d39de7881feb275894539d6b875695fb758d805ccca75583abbca9be9f0a",
+            "uid": "75b7c8273530968831dc24ba07dcce19",
+            "username": "juhoteperi"
+        },
+        "service": {
+            "hostname": "deraen.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.8"
+    },
+    "ctime": 1452974622,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1452974541,
+        "hash": "73080967f39134eed27175cdaff51a60cec7d9e363b2edd41192f9bb9d92464abd6d5ba6189bd2d6f6266ca4b85ccb19c8275f8926ba1de936babeccb5b530a9",
+        "seqno": 350179
+    },
+    "prev": "6d720f79d215480455a48e08d1d7ee7d8877fb667b9178918245e8e33272df2d",
+    "seqno": 10,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+g6Rib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg46ZX053niB/rJ1iUU51rh1aV+3WNgFzMp1WDq7ypvp8Kp3BheWxvYWTFAvp7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwZTNhNjU3ZDM5ZGU3ODgxZmViMjc1ODk0NTM5ZDZiODc1Njk1ZmI3NThkODA1Y2NjYTc1NTgzYWJiY2E5YmU5ZjBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwZTNhNjU3ZDM5ZGU3ODgxZmViMjc1ODk0NTM5ZDZiODc1Njk1ZmI3NThkODA1Y2NjYTc1NTgzYWJiY2E5YmU5ZjBhIiwidWlkIjoiNzViN2M4MjczNTMwOTY4ODMxZGMyNGJhMDdkY2NlMTkiLCJ1c2VybmFtZSI6Imp1aG90ZXBlcmkifSwic2VydmljZSI6eyJob3N0bmFtZSI6ImRlcmFlbi5naXRodWIuaW8iLCJwcm90b2NvbCI6Imh0dHBzOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC44In0sImN0aW1lIjoxNDUyOTc0NjIyLCJleHBpcmVfaW4iOjUwNDU3NjAwMCwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE0NTI5NzQ1NDEsImhhc2giOiI3MzA4MDk2N2YzOTEzNGVlZDI3MTc1Y2RhZmY1MWE2MGNlYzdkOWUzNjNiMmVkZDQxMTkyZjliYjlkOTI0NjRhYmQ2ZDViYTYxODliZDJkNmY2MjY2Y2E0Yjg1Y2NiMTljODI3NWY4OTI2YmExZGU5MzZiYWJlY2NiNWI1MzBhOSIsInNlcW5vIjozNTAxNzl9LCJwcmV2IjoiNmQ3MjBmNzlkMjE1NDgwNDU1YTQ4ZTA4ZDFkN2VlN2Q4ODc3ZmI2NjdiOTE3ODkxODI0NWU4ZTMzMjcyZGYyZCIsInNlcW5vIjoxMCwidGFnIjoic2lnbmF0dXJlIn2jc2lnxEBHW0aMZCD+NpZFXxaZWRJVxSdGZVhO4lhA1+opHEr5y1clArojD7lPWRAHoQG4aMKljBttHMjXTH1vbEibcYcDqHNpZ190eXBlIKN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/juhoteperi
