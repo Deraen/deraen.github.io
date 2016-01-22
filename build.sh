@@ -11,7 +11,7 @@ cd gh-pages
 git pull
 )
 
-boot deploy
+boot prod
 cp -r build/* gh-pages
 
 cd gh-pages

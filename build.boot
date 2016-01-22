@@ -61,8 +61,8 @@
         (livereload :asset-path "public" :filter #"\.(css|html|js)$")
         (serve :resource-root "public")))
 
-(deftask deploy []
-  (set-env! :target-path "build")
+(deftask prod []
   (comp (build :prod true)
         (sift :include #{#"^public"})
-        (sift :move {#"^public/" ""})))
+        (sift :move {#"^public/" ""})
+        (target :dir #{"build"})))
