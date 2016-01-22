@@ -48,7 +48,9 @@
         (collection :renderer 'blog.views.index/render :page "index.html")
         (collection :renderer 'blog.views.tags/render :page "tags/index.html")
         (hyphenate-html :remove #{#"^public/tags/index.html$" #"^public/index.html"} :language "en-gb")
-        (atom-feed :filename "atom.xml")
+        (atom-feed
+         :filterer :original
+         :filename "atom.xml")
         (if prod (sitemap :filename "sitemap.xml") identity)
         ))
 
