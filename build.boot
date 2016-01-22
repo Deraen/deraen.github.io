@@ -3,14 +3,13 @@
   :resource-paths #{"resources"}
   :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
                   [hiccup "1.0.5"]
-                  [org.clojure/data.xml "0.0.8"]
-                  [perun "0.2.2-SNAPSHOT"]
+                  [perun "0.3.0"]
                   [clj-time "0.11.0"]
-                  [deraen/boot-less "0.4.2"]
+                  [deraen/boot-less "0.5.0"]
                   [deraen/boot-livereload "0.1.2"]
                   [deraen/boot-hyphenate "0.1.0"]
                   [pandeiro/boot-http "0.7.0"]
-                  [org.slf4j/slf4j-nop "1.7.12"]
+                  [org.slf4j/slf4j-nop "1.7.13"]
 
                   [org.webjars.npm/normalize.css "3.0.3"]
                   [org.webjars.npm/highlight.js "8.7.0"]])
