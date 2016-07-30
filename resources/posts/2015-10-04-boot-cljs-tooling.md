@@ -3,6 +3,7 @@ name: Boot ClojureScript tooling updates and what's up next
 keywords: boot, cljs
 date-created: 2015-10-04
 date-published: 2015-10-04
+uuid: 595f3d1b-b60d-46c7-9a06-d0dd6c220a01
 ---
 
 One of the features missing from Boot ClojureScript tooling in comparison

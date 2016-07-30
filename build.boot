@@ -1,15 +1,15 @@
 (set-env!
   :source-paths #{"src"}
   :resource-paths #{"resources"}
-  :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
+  :dependencies '[[org.clojure/clojure "1.8.0" :scope "provided"]
                   [hiccup "1.0.5"]
-                  [perun "0.3.0"]
-                  [clj-time "0.11.0"]
+                  [perun "0.4.0-20160730.220016-2"]
+                  [clj-time "0.12.0"]
                   [deraen/boot-less "0.5.0"]
                   [deraen/boot-livereload "0.1.2"]
                   [deraen/boot-hyphenate "0.1.0"]
-                  [pandeiro/boot-http "0.7.0"]
-                  [org.slf4j/slf4j-nop "1.7.13"]
+                  [pandeiro/boot-http "0.7.3"]
+                  [org.slf4j/slf4j-nop "1.7.21"]
 
                   [org.webjars.npm/normalize.css "3.0.3"]
                   [org.webjars.npm/highlight.js "8.7.0"]])
@@ -41,7 +41,7 @@
         (global-metadata)
         (if prod (draft) identity)
         (slug)
-        (permalink :permalink-fn #(perun/absolutize-url (str (:slug %) "/")))
+        (permalink :permalink-fn #(str (:slug %) "/"))
         (canonical-url)
         (split-keywords)
         (render :renderer 'blog.views.post/render)

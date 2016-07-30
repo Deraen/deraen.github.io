@@ -4,6 +4,7 @@ keywords: boot, blog
 date-created: 2015-07-04
 date-published: 2015-07-04
 date-modified: 2015-07-08
+uuid: abf83fd4-905b-4ed7-9d5c-69a871497f4e
 ---
 
 I've been planning on starting a blog for some time already. But as I love
