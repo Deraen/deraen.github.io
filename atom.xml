@@ -1,52 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Deraen's blog</title><generator uri="https://perun.io/" rel="self">Perun</generator><link href="http://deraen.github.io/atom.xml" rel="self"></link><link href="http://deraen.github.io/" type="text/html"></link><updated>2015-10-04T00:00:00Z</updated><id>http://deraen.github.io/</id><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author><entry><id>urn:uuid:595f3d1b-b60d-46c7-9a06-d0dd6c220a01</id><title>Boot ClojureScript tooling updates and what's up next</title><link href="http://deraen.github.io/boot-cljs-tooling/" type="text/html" title="Boot ClojureScript tooling updates and what's up next"></link><published>2015-10-04T00:00:00Z</published><updated>2015-10-04T00:00:00Z</updated><content type="html">&lt;p&gt;One of the features missing from Boot ClojureScript tooling in comparison to &lt;a href="https://github.com/bhauman/lein-figwheel"&gt;Figwheel&lt;/a&gt; was heads-up display (HUD). Thanks to &lt;a href="https://twitter.com/martinklepsch"&gt;Martin Klepsch&lt;/a&gt; this is now implemented in Boot-cljs and Boot-reload. I've made a screen cast about the new feature so check that to see how it works. Read on for some details about the implementation and to see what's up next for Boot ClojureScript tooling.&lt;/p&gt;
-&lt;h2&gt;&lt;a href="#demonstration" name="demonstration"&gt;&lt;/a&gt;Demonstration&lt;/h2&gt;
-&lt;div class="video-wrapper"&gt;
-  &lt;iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/QQ3J59AKZLU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-&lt;h2&gt;&lt;a href="#implementation" name="implementation"&gt;&lt;/a&gt;Implementation&lt;/h2&gt;
-&lt;p&gt;As Boot ClojureScript tooling consists of multiple separate tasks, implementation of HUD required changes to two tasks:&lt;/p&gt;
-&lt;h3&gt;&lt;a href="#boot-cljs" name="boot-cljs"&gt;&lt;/a&gt;Boot-cljs&lt;/h3&gt;
-&lt;p&gt;Implementation of HUD requires that information about ClojureScript warnings and exceptions is available for sending to the client.&lt;/p&gt;
-&lt;p&gt;To catch the information about Cljs warnings we'll set up custom warning-handler. The handler with both &lt;em&gt;(1)&lt;/em&gt; print the warning to console and &lt;em&gt;(2)&lt;/em&gt; store the warnings in an atom. The reason why we overwrite default warning handler which would also print the warnings to console, is that we want to process file-path of the warning before printing. Because ClojureScript sees to source files at Boot temporary-directories the file paths include the temporary directory path. To make the warnings cleaner we &lt;em&gt;(3)&lt;/em&gt; retrieve path for the original file. Data about warnings is attached to &lt;code&gt;.cljs.edn&lt;/code&gt; file metadata on the fileset.&lt;/p&gt;
-&lt;pre&gt;&lt;code class="clj"&gt;(fn [warning-type env extra]
-  (when (warning-enabled? warning-type)
-    (when-let [s (ana/error-message warning-type extra)]
-                 ;; 3
-      (let [path (util/find-original-path source-paths dirs ana/*cljs-file*)]
-        ;; 1
-        (butil/warn &amp;quot;WARNING: %s %s\n&amp;quot; s (when (:line env)
-                                           (str &amp;quot;at line &amp;quot; (:line env) &amp;quot; &amp;quot; path)))
-        ;; 2
-        (swap! warnings conj {:message s
-                              :file path
-                              :line (:line env)
-                              :type warning-type})))))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Handling exceptions is a bit more trickier because ClojureScript compiler is running inside a &lt;a href="https://github.com/boot-clj/boot/wiki/Pods"&gt;pod&lt;/a&gt;. Usually the communication between pods happens using &lt;code&gt;pr-str&lt;/code&gt; and &lt;code&gt;read-string&lt;/code&gt;, very similarly to how Leiningen communicates between multiple JVMs. But this doesn't happen with exceptions, they are instead directly thrown. The problem here is that for some reason when exceptions are thrown from one classloader to another, they lose their &lt;code&gt;ex-info&lt;/code&gt; metadata. For ClojureScript exceptions the metadata contain all the interesting data: file-path, line number and column number.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://github.com/adzerk-oss/boot-cljs/blob/fd913b9c9a2bd9d51d28f855baadd225198950a2/src/adzerk/boot_cljs/util.clj#L47-L104"&gt;A workaround&lt;/a&gt; I found for this is to manually serialize and deserialize exceptions, including metadata, stack-trace and cause stack. This way it's possible to throw exception with correct metadata from Boot-cljs to Boot-reload.&lt;/p&gt;
-&lt;p&gt;As with warnings, file paths in exceptions are changed to contain path to the original file instead of to a file in temporary directory.&lt;/p&gt;
-&lt;h3&gt;&lt;a href="#boot-reload" name="boot-reload"&gt;&lt;/a&gt;Boot-reload&lt;/h3&gt;
-&lt;p&gt;Boot-reload will either read warnings from &lt;code&gt;.cljs.edn&lt;/code&gt; file metadata on the fileset or catch the exceptions thrown by Boot-cljs. Because Boot tasks are implemented using middleware pattern it's simple as just calling &lt;code&gt;next-task&lt;/code&gt; inside &lt;code&gt;try-catch&lt;/code&gt;. Boot-cljs will tag the exceptions so that we can display only the &lt;em&gt;(1)&lt;/em&gt; interesting exceptions on the browser. All exceptions are rethrown so that other tasks can access the exception data and to tell that the build failed.&lt;/p&gt;
-&lt;pre&gt;&lt;code class="clj"&gt;(try
-  (next-task fileset)
-  (catch Exception e
-        ;; 1
-    (if (= :boot-cljs (:from (ex-data e)))
-      (send-visual! @pod {:exception (merge {:message (.getMessage e)}
-                                            (ex-data e))}))
-    (throw e)))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The heads-up display user interface is implemented purely using Google Closure library. This keeps the build simpler as we don't need any additional dependencies. Even though we are not using sophisticated framework like React, the user interface implementation is only about one hundred lines, including CSS definitions. UI is even implemented using immediate mode rendering: Whenever new &lt;code&gt;:visual&lt;/code&gt; message is received from the server, old DOM container is removed and a new one is created.&lt;/p&gt;
-&lt;h2&gt;&lt;a href="#next-up" name="next-up"&gt;&lt;/a&gt;Next up&lt;/h2&gt;
-&lt;h3&gt;&lt;a href="#boot-reload-fixes" name="boot-reload-fixes"&gt;&lt;/a&gt;Boot-reload fixes&lt;/h3&gt;
-&lt;p&gt;Current file-reloading implementation has some problems when one has multiple ClojureScript builds in one project. Boot-reload tries to load all changes JS files in browser but it's possible that the files don't belong to the open application and cause problems.&lt;/p&gt;
-&lt;p&gt;Google Closure library defines a (private) dependency graph of namespaces and it should be possible to use that to determine if changed file is required by any loaded namespace, if it's not, we don't need to load the changed file.&lt;/p&gt;
-&lt;p&gt;The same dependency graph can be used to sort the changed files in dependency order. Currently Boot-cljs is calculating this dependency order and passing it to Boot-reload, this is additional work as ClojureScript compiler has already done this and passed the data to Closure.&lt;/p&gt;
-&lt;p&gt;Figwheel is already using Closure dependency data so I'll be looking on it's implementation and copying relevant parts to Boot-reload.&lt;/p&gt;
-&lt;h3&gt;&lt;a href="#boot-cljs-repl-fixes-and-improvements" name="boot-cljs-repl-fixes-and-improvements"&gt;&lt;/a&gt;Boot-cljs-repl fixes and improvements&lt;/h3&gt;
-&lt;p&gt;I have now working ClojureScript REPL setup with &lt;a href="https://github.com/tpope/vim-fireplace"&gt;Vim-fireplace&lt;/a&gt; so I'll be fixing problems as I encounter them.&lt;/p&gt;
-&lt;h3&gt;&lt;a href="#boot-cljs-performance-fileset-performance-" name="boot-cljs-performance-fileset-performance-"&gt;&lt;/a&gt;Boot-cljs performance (fileset performance)&lt;/h3&gt;
-&lt;p&gt;There have been multiple reports of Boot-cljs being slower than Leiningen Cljsbuild or Figwheel. On most cases the ClojureScript compiler works just as fast, but Boot filesets cause some overhead which shows especially with incremental recompiles. Performance profiling should help to find the bottlenecks. Improving this should help all Boot tasks.&lt;/p&gt;</content><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author></entry><entry><id>urn:uuid:abf83fd4-905b-4ed7-9d5c-69a871497f4e</id><title>Hello World – Building a blog using Boot</title><link href="http://deraen.github.io/hello-world/" type="text/html" title="Hello World – Building a blog using Boot"></link><published>2015-07-04T00:00:00Z</published><updated>2015-07-08T00:00:00Z</updated><content type="html">&lt;p&gt;I've been planning on starting a blog for some time already. But as I love hacking with build tools and such I usually spend some days trying a blog generator before deciding it's not good enough and start writing a new one, without ever finishing anything. Thus I was happy when I saw &lt;a href="https://github.com/hashobject/perun"&gt;Perun&lt;/a&gt; which does pretty much everything I want:&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Deraen's blog</title><generator uri="https://perun.io/">Perun</generator><link href="http://deraen.github.io/atom.xml" rel="self"></link><link href="http://deraen.github.io/" type="text/html"></link><updated>2015-10-04T00:00:00Z</updated><id>http://deraen.github.io/</id><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author><entry><id>urn:uuid:abf83fd4-905b-4ed7-9d5c-69a871497f4e</id><title>Hello World – Building a blog using Boot</title><link href="http://deraen.github.io/hello-world/" type="text/html" title="Hello World – Building a blog using Boot"></link><published>2015-07-04T00:00:00Z</published><updated>2015-07-08T00:00:00Z</updated><content type="html">&lt;p&gt;I've been planning on starting a blog for some time already. But as I love hacking with build tools and such I usually spend some days trying a blog generator before deciding it's not good enough and start writing a new one, without ever finishing anything. Thus I was happy when I saw &lt;a href="https://github.com/hashobject/perun"&gt;Perun&lt;/a&gt; which does pretty much everything I want:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Modular design, easy to extend&lt;/li&gt;
   &lt;li&gt;No forced metadata schema&lt;/li&gt;
@@ -111,4 +63,52 @@
 &lt;p&gt;Previously I've been using &lt;a href="http://livereload.com"&gt;LiveReload.js&lt;/a&gt; with &lt;a href="http://gulpjs.com/"&gt;Gulp.js&lt;/a&gt; so I thought that should be a good fit for Boot also. Luckily &lt;a href="https://github.com/bhurlow/clj-livereload"&gt;a Clojure implementation&lt;/a&gt; of LiveReload already existed. It required some API changes to make it generally usable library. After the changes it was a breeze to create a &lt;a href="https://github.com/Deraen/boot-livereload"&gt;boot task&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;&lt;a href="#cool-features-and-possibilities" name="cool-features-and-possibilities"&gt;&lt;/a&gt;Cool features and possibilities&lt;/h2&gt;
 &lt;p&gt;As it is easy to manipulate the data between reading the files and rendering there is great opportunity to move some features which are usually implemented in the browser to build process. The value I see there is that RSS readers (AFAIK) do not execute JS so those readers are left without e.g. code highlighting.&lt;/p&gt;
-&lt;p&gt;Another possibility is to hyphenate the text. This is even more useful as the hyphenation is relatively expensive operation so it's great if it only needs to be executed once instead of each page load. For this reason I already started writing &lt;a href="https://github.com/Deraen/clj-hyphenate"&gt;clj-hyphenate&lt;/a&gt; which implements Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is the same as used by TeX, LibreOffice and Hyphenator.js. To hyphenate HTML it is possible to insert soft-hyphens into the text which the browser only shows if the word needs to be split into multiple lines.&lt;/p&gt;</content><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author></entry></feed>
+&lt;p&gt;Another possibility is to hyphenate the text. This is even more useful as the hyphenation is relatively expensive operation so it's great if it only needs to be executed once instead of each page load. For this reason I already started writing &lt;a href="https://github.com/Deraen/clj-hyphenate"&gt;clj-hyphenate&lt;/a&gt; which implements Franklin M. Liang's hyphenation algorithm in Clojure. The algorithm is the same as used by TeX, LibreOffice and Hyphenator.js. To hyphenate HTML it is possible to insert soft-hyphens into the text which the browser only shows if the word needs to be split into multiple lines.&lt;/p&gt;</content><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author></entry><entry><id>urn:uuid:595f3d1b-b60d-46c7-9a06-d0dd6c220a01</id><title>Boot ClojureScript tooling updates and what's up next</title><link href="http://deraen.github.io/boot-cljs-tooling/" type="text/html" title="Boot ClojureScript tooling updates and what's up next"></link><published>2015-10-04T00:00:00Z</published><updated>2015-10-04T00:00:00Z</updated><content type="html">&lt;p&gt;One of the features missing from Boot ClojureScript tooling in comparison to &lt;a href="https://github.com/bhauman/lein-figwheel"&gt;Figwheel&lt;/a&gt; was heads-up display (HUD). Thanks to &lt;a href="https://twitter.com/martinklepsch"&gt;Martin Klepsch&lt;/a&gt; this is now implemented in Boot-cljs and Boot-reload. I've made a screen cast about the new feature so check that to see how it works. Read on for some details about the implementation and to see what's up next for Boot ClojureScript tooling.&lt;/p&gt;
+&lt;h2&gt;&lt;a href="#demonstration" name="demonstration"&gt;&lt;/a&gt;Demonstration&lt;/h2&gt;
+&lt;div class="video-wrapper"&gt;
+  &lt;iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/QQ3J59AKZLU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2&gt;&lt;a href="#implementation" name="implementation"&gt;&lt;/a&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;As Boot ClojureScript tooling consists of multiple separate tasks, implementation of HUD required changes to two tasks:&lt;/p&gt;
+&lt;h3&gt;&lt;a href="#boot-cljs" name="boot-cljs"&gt;&lt;/a&gt;Boot-cljs&lt;/h3&gt;
+&lt;p&gt;Implementation of HUD requires that information about ClojureScript warnings and exceptions is available for sending to the client.&lt;/p&gt;
+&lt;p&gt;To catch the information about Cljs warnings we'll set up custom warning-handler. The handler with both &lt;em&gt;(1)&lt;/em&gt; print the warning to console and &lt;em&gt;(2)&lt;/em&gt; store the warnings in an atom. The reason why we overwrite default warning handler which would also print the warnings to console, is that we want to process file-path of the warning before printing. Because ClojureScript sees to source files at Boot temporary-directories the file paths include the temporary directory path. To make the warnings cleaner we &lt;em&gt;(3)&lt;/em&gt; retrieve path for the original file. Data about warnings is attached to &lt;code&gt;.cljs.edn&lt;/code&gt; file metadata on the fileset.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="clj"&gt;(fn [warning-type env extra]
+  (when (warning-enabled? warning-type)
+    (when-let [s (ana/error-message warning-type extra)]
+                 ;; 3
+      (let [path (util/find-original-path source-paths dirs ana/*cljs-file*)]
+        ;; 1
+        (butil/warn &amp;quot;WARNING: %s %s\n&amp;quot; s (when (:line env)
+                                           (str &amp;quot;at line &amp;quot; (:line env) &amp;quot; &amp;quot; path)))
+        ;; 2
+        (swap! warnings conj {:message s
+                              :file path
+                              :line (:line env)
+                              :type warning-type})))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Handling exceptions is a bit more trickier because ClojureScript compiler is running inside a &lt;a href="https://github.com/boot-clj/boot/wiki/Pods"&gt;pod&lt;/a&gt;. Usually the communication between pods happens using &lt;code&gt;pr-str&lt;/code&gt; and &lt;code&gt;read-string&lt;/code&gt;, very similarly to how Leiningen communicates between multiple JVMs. But this doesn't happen with exceptions, they are instead directly thrown. The problem here is that for some reason when exceptions are thrown from one classloader to another, they lose their &lt;code&gt;ex-info&lt;/code&gt; metadata. For ClojureScript exceptions the metadata contain all the interesting data: file-path, line number and column number.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/adzerk-oss/boot-cljs/blob/fd913b9c9a2bd9d51d28f855baadd225198950a2/src/adzerk/boot_cljs/util.clj#L47-L104"&gt;A workaround&lt;/a&gt; I found for this is to manually serialize and deserialize exceptions, including metadata, stack-trace and cause stack. This way it's possible to throw exception with correct metadata from Boot-cljs to Boot-reload.&lt;/p&gt;
+&lt;p&gt;As with warnings, file paths in exceptions are changed to contain path to the original file instead of to a file in temporary directory.&lt;/p&gt;
+&lt;h3&gt;&lt;a href="#boot-reload" name="boot-reload"&gt;&lt;/a&gt;Boot-reload&lt;/h3&gt;
+&lt;p&gt;Boot-reload will either read warnings from &lt;code&gt;.cljs.edn&lt;/code&gt; file metadata on the fileset or catch the exceptions thrown by Boot-cljs. Because Boot tasks are implemented using middleware pattern it's simple as just calling &lt;code&gt;next-task&lt;/code&gt; inside &lt;code&gt;try-catch&lt;/code&gt;. Boot-cljs will tag the exceptions so that we can display only the &lt;em&gt;(1)&lt;/em&gt; interesting exceptions on the browser. All exceptions are rethrown so that other tasks can access the exception data and to tell that the build failed.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="clj"&gt;(try
+  (next-task fileset)
+  (catch Exception e
+        ;; 1
+    (if (= :boot-cljs (:from (ex-data e)))
+      (send-visual! @pod {:exception (merge {:message (.getMessage e)}
+                                            (ex-data e))}))
+    (throw e)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The heads-up display user interface is implemented purely using Google Closure library. This keeps the build simpler as we don't need any additional dependencies. Even though we are not using sophisticated framework like React, the user interface implementation is only about one hundred lines, including CSS definitions. UI is even implemented using immediate mode rendering: Whenever new &lt;code&gt;:visual&lt;/code&gt; message is received from the server, old DOM container is removed and a new one is created.&lt;/p&gt;
+&lt;h2&gt;&lt;a href="#next-up" name="next-up"&gt;&lt;/a&gt;Next up&lt;/h2&gt;
+&lt;h3&gt;&lt;a href="#boot-reload-fixes" name="boot-reload-fixes"&gt;&lt;/a&gt;Boot-reload fixes&lt;/h3&gt;
+&lt;p&gt;Current file-reloading implementation has some problems when one has multiple ClojureScript builds in one project. Boot-reload tries to load all changes JS files in browser but it's possible that the files don't belong to the open application and cause problems.&lt;/p&gt;
+&lt;p&gt;Google Closure library defines a (private) dependency graph of namespaces and it should be possible to use that to determine if changed file is required by any loaded namespace, if it's not, we don't need to load the changed file.&lt;/p&gt;
+&lt;p&gt;The same dependency graph can be used to sort the changed files in dependency order. Currently Boot-cljs is calculating this dependency order and passing it to Boot-reload, this is additional work as ClojureScript compiler has already done this and passed the data to Closure.&lt;/p&gt;
+&lt;p&gt;Figwheel is already using Closure dependency data so I'll be looking on it's implementation and copying relevant parts to Boot-reload.&lt;/p&gt;
+&lt;h3&gt;&lt;a href="#boot-cljs-repl-fixes-and-improvements" name="boot-cljs-repl-fixes-and-improvements"&gt;&lt;/a&gt;Boot-cljs-repl fixes and improvements&lt;/h3&gt;
+&lt;p&gt;I have now working ClojureScript REPL setup with &lt;a href="https://github.com/tpope/vim-fireplace"&gt;Vim-fireplace&lt;/a&gt; so I'll be fixing problems as I encounter them.&lt;/p&gt;
+&lt;h3&gt;&lt;a href="#boot-cljs-performance-fileset-performance-" name="boot-cljs-performance-fileset-performance-"&gt;&lt;/a&gt;Boot-cljs performance (fileset performance)&lt;/h3&gt;
+&lt;p&gt;There have been multiple reports of Boot-cljs being slower than Leiningen Cljsbuild or Figwheel. On most cases the ClojureScript compiler works just as fast, but Boot filesets cause some overhead which shows especially with incremental recompiles. Performance profiling should help to find the bottlenecks. Improving this should help all Boot tasks.&lt;/p&gt;</content><author><name>Juho Teperi</name><email>juho.teperi@iki.fi</email></author></entry></feed>
